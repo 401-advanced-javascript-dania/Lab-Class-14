@@ -6,7 +6,7 @@
 
 ### Links and Resources
 
-- [submission PR](https://github.com/401-advanced-javascript-dania/Lab-Class-13/pull/2)
+- [submission PR](https://github.com/401-advanced-javascript-dania/Lab-Class-14/pull/2)
 
 
 
