@@ -44,11 +44,17 @@ return Promise.reject();
  }
 // it will generate a token from two factor layer of SECRET and username to authorize 
  users.statics.tokenGenerationForSignin = function(user) {
-let unique = {id: user._id}
+let unique = {id: user._id,
+username:user.username,
+password:user.password,
+role:user.role,}
 return jwt.sign(unique,SECRET);
  }
   users.methods.tokenGenerationForSignup = function(user) {
-    let unique = {id: user._id}
+    let unique = {id: user._id,
+        username:user.username,
+        password:user.password,
+        role:user.role,}
     return jwt.sign(unique,SECRET);
      }
 

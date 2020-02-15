@@ -45,20 +45,29 @@ app.get('/user',bearerMiddleware,(req,res,next)=>{
 
   res.status(200).json(req.user);
 });
-app.get('/read',bearerMiddleware,aclMiddleware('read'),(req,res,next)=>{
+app.get('/public',(req,res)=>{
+  Users.data()
+    .then(dataOfUser => {
+      res.status(200).json(dataOfUser);
+    });
+});
+app.get('/private',basicOfAuth,(req,res)=>{
+  res.status(200).send(req.token);
+});
+app.get('/readonly',bearerMiddleware,aclMiddleware('read'),(req,res,next)=>{
   res.status(200).send('authorized for just read');
 });
 app.get('/create',bearerMiddleware,aclMiddleware('create'),(req,res,next)=>{
-  res.status(200).send('authorized for just read');
+  res.status(200).send('authorized for creat');
 });
 app.get('/update',bearerMiddleware,aclMiddleware('update'),(req,res,next)=>{
-  res.status(200).send('authorized for just read');
+  res.status(200).send('authorized for update');
 });
 app.get('/delete',bearerMiddleware,aclMiddleware('delete'),(req,res,next)=>{
-  res.status(200).send('authorized for just read');
+  res.status(200).send('authorized for delete');
 });
-app.get('/admin',bearerMiddleware,aclMiddleware('read,create,update,delete'),(req,res,next)=>{
-  res.status(200).send('authorized for just read');
+app.get('/everything',bearerMiddleware,aclMiddleware('read,create,update,delete'),(req,res,next)=>{
+  res.status(200).send('authorized for every thing');
 });
 
 module.exports = {
