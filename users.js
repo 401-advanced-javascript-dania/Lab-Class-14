@@ -63,9 +63,9 @@ return jwt.sign(unique,SECRET);
  users.statics.tokenAthenticate= async function(token){
     try{
         let tokenToAthenticate =  jwt.verify(token, SECRET);
-        if (tokenToAthenticate.username){
+        if (tokenToAthenticate){
             // to return token when we use then block 
-          return  Promise.resolve(tokenToAthenticate.username);
+          return  Promise.resolve(tokenToAthenticate);
         }else{
            return Promise.reject();
         }

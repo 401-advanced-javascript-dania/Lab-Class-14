@@ -43,7 +43,7 @@ app.get('/oauth',oauthMiddleware,(req,res,next)=>{
 });
 app.get('/user',bearerMiddleware,(req,res,next)=>{
 
-  res.status(200).json(req.user);
+  res.status(200).json(req.user.username);
 });
 app.get('/public',(req,res)=>{
   Users.data()
