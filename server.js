@@ -3,6 +3,7 @@ const express = require('express');
 const basicOfAuth = require('./basic-auth-middleware.js');
 const oauthMiddleware = require('./oauth-middleware.js');
 const bearerMiddleware = require('./bearer-auth-middleware.js');
+const aclMiddleware = require('./acl-middleware.js')
 const Users = require('./users.js');
 const app = express();
 //global middleware
@@ -44,6 +45,22 @@ app.get('/user',bearerMiddleware,(req,res,next)=>{
 
   res.status(200).json(req.user);
 });
+app.get('/read',bearerMiddleware,acl('read'),(req,res,next)=>{
+  res.status(200).send('authorized for just read')
+})
+app.get('/create',bearerMiddleware,acl('create'),(req,res,next)=>{
+  res.status(200).send('authorized for just read')
+})
+app.get('/update',bearerMiddleware,acl('update'),(req,res,next)=>{
+  res.status(200).send('authorized for just read')
+})
+app.get('/delete',bearerMiddleware,acl('delete'),(req,res,next)=>{
+  res.status(200).send('authorized for just read')
+})
+app.get('/admin',bearerMiddleware,acl('read,create,update,delete'),(req,res,next)=>{
+  res.status(200).send('authorized for just read')
+})
+
 module.exports = {
   server:app,
   start: port =>{

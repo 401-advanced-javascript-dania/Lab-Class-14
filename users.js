@@ -14,6 +14,7 @@ const jwt = require('jsonwebtoken')
 const users = new mongoose.Schema({
     username: { type:String, required:true},
     password: { type:String,required:true},
+    role:{type:String,required:true,default:'visitor',enum:['visitor','user','admin']}
 });
  // .save is methode of user and sync to wait until bcrypt done with hashing the password then it will back with the password that hashed
  users.pre('save', async function () {
@@ -65,8 +66,35 @@ return jwt.sign(unique,SECRET);
     }catch(err){
         return Promise.reject();
     }
-     }     
- // it is a function that will return the all of data user
+     }  
+//
+users.statics.checkForcapability = (ability,role) => {
+    let admin = ['read','create','update','delete'];
+    let user = ['read','create','update'];
+    let visitor = ['read'];
+    if(role === 'admin'){
+        for(let i=0;i< admin.length;i++){
+            if(admin[i]){
+                return true;
+            }
+        }
+    }
+    if(role === 'user'){
+        for(let i=0; i<user.length;i++){
+            if(user[i]){
+                return true;
+            }
+        }
+    }
+    if(role === 'visitor'){
+        for(let i=0;i<visitor.length;i++){
+            if (visitor[i]){
+                return true;
+            }
+        }
+    }
+};
+// it is a function that will return the all of data user
 //  users.dataUser=()=>db;
 users.statics.data = async function(){
     let dataOfUser=await this.find({});
